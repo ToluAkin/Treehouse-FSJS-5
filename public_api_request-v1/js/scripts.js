@@ -1,5 +1,6 @@
 const gallery = document.querySelector('.gallery');
-
+const body = document.querySelector('body');
+const modalButton = document.querySelector('.modal-close-btn');
 /**
  * 
  * @param {*} url 
@@ -49,29 +50,35 @@ function generateCard(data) {
     gallery.innerHTML = card;
 }
 
+
 function generateModal(data) {
     const modal = data.map(item => `
-    <div class="modal-container">
-        <div class="modal">
-            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-            <div class="modal-info-container">
-                <img class="modal-img" src="${item.picture.medium}" alt="profile picture">
-                <h3 id="name" class="modal-name cap">${item.name.first} ${item.name.last}</h3>
-                <p class="modal-text">${item.email}</p>
-                <p class="modal-text cap">${item.location.city}</p>
-                <hr>
-                <p class="modal-text">${item.cell}</p>
-                <p class="modal-text">${item.location.street.number} ${item.location.street.name}., ${item.country} OR ${item.location.postcode}</p>
-                <p class="modal-text">Birthday: ${item.dob.date}</p>
+        <div class="modal-container d-none">
+            <div class="modal">
+                <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                <div class="modal-info-container">
+                    <img class="modal-img" src="${item.picture.medium}" alt="profile picture">
+                    <h3 id="name" class="modal-name cap">${item.name.first} ${item.name.last}</h3>
+                    <p class="modal-text">${item.email}</p>
+                    <p class="modal-text cap">${item.location.city}</p>
+                    <hr>
+                    <p class="modal-text">${item.cell}</p>
+                    <p class="modal-text">${item.location.street.number} ${item.location.street.name}., ${item.country} OR ${item.location.postcode}</p>
+                    <p class="modal-text">Birthday: ${item.dob.date}</p>
+                </div>
+            </div>
+
+            <div class="modal-btn-container">
+                <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                <button type="button" id="modal-next" class="modal-next btn">Next</button>
             </div>
         </div>
+    `).join('');
 
-    // IMPORTANT: Below is only for exceeds tasks 
-        <div class="modal-btn-container">
-            <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-            <button type="button" id="modal-next" class="modal-next btn">Next</button>
-        </div>
-    </div>
-    `)
-    gallery.nextSibling.innerHTML = modal;
+    gallery.insertAdjacentHTML('afterend', modal);
+    // const modalBody = document.querySelector('.modal-container') 
+    // modalBody.style.display = 'none';
+    // const card = document.querySelector('.card');
+    // card.addEventListener('click', () => modalBody.style.display = 'block');
+    // modalButton.addEventListener('click', () => modalBody.style.display = 'none');
 }
