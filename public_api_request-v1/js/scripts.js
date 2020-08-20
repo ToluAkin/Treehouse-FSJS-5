@@ -13,11 +13,9 @@ function fetchData(url) {
 }
 
 fetchData('https://randomuser.me/api/?results=12')
-    .then(data => generateCard(data.results))
+    .then(employees => generateCard(employees.results))
     // .then(data => console.log((data.results)))
 
-fetchData('https://randomuser.me/api/?results=12')
-    .then(data => generateModal(data.results))
 /**
  * checkStatus
  * @param {*} response 
@@ -32,39 +30,53 @@ function checkStatus(response) {
 
 /**
  * 
- * @param {*} data 
+ * @param {*} employees 
  */
-function generateCard(data) {
-    const card = data.map(item => `
+function generateCard(employees) {
+    const card = employees.map(employee => `
     <div class='card'>
         <div class='card-img-container'>
-            <img class="card-img" src="${item.picture.thumbnail}">
+            <img class="card-img" src="${employee.picture.thumbnail}">
         </div>
         <div class="card-info-container">
-            <h3 id="name" class="card-name cap">${item.name.first}, ${item.name.last}</h3>
-            <p class="card-text">${item.email}</p>
-            <p class="card-text cap">${item.location.city}, ${item.location.state}</p>
+            <h3 id="name" class="card-name cap">${employee.name.first}, ${employee.name.last}</h3>
+            <p class="card-text">${employee.email}</p>
+            <p class="card-text cap">${employee.location.city}, ${employee.location.state}</p>
         </div>
     </div>
     `).join('');
     gallery.innerHTML = card;
+
+    const cards = document.querySelectorAll('.card');
+    console.log(cards);
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].addEventListener('click', (e) => {
+            console.log(e.target );
+            if (cards[i].contains(e.target)) {
+                generateModal(employees[i])
+            }
+        })
+    }
 }
 
-
-function generateModal(data) {
-    const modal = data.map(item => `
-        <div class="modal-container d-none">
+/**
+ * 
+ * @param {*} employee 
+ */
+function generateModal(employee) {
+    const modal = `
+        <div class="modal-container">
             <div class="modal">
                 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
                 <div class="modal-info-container">
-                    <img class="modal-img" src="${item.picture.medium}" alt="profile picture">
-                    <h3 id="name" class="modal-name cap">${item.name.first} ${item.name.last}</h3>
-                    <p class="modal-text">${item.email}</p>
-                    <p class="modal-text cap">${item.location.city}</p>
+                    <img class="modal-img" src="${employee.picture.medium}" alt="profile picture">
+                    <h3 id="name" class="modal-name cap">${employee.name.first} ${employee.name.last}</h3>
+                    <p class="modal-text">${employee.email}</p>
+                    <p class="modal-text cap">${employee.location.city}</p>
                     <hr>
-                    <p class="modal-text">${item.cell}</p>
-                    <p class="modal-text">${item.location.street.number} ${item.location.street.name}., ${item.country} OR ${item.location.postcode}</p>
-                    <p class="modal-text">Birthday: ${item.dob.date}</p>
+                    <p class="modal-text">${employee.cell}</p>
+                    <p class="modal-text">${employee.location.street.number} ${employee.location.street.name}., ${employee.country} OR ${employee.location.postcode}</p>
+                    <p class="modal-text">Birthday: ${employee.dob.date}</p>
                 </div>
             </div>
 
@@ -73,12 +85,16 @@ function generateModal(data) {
                 <button type="button" id="modal-next" class="modal-next btn">Next</button>
             </div>
         </div>
-    `).join('');
+    `;
 
     gallery.insertAdjacentHTML('afterend', modal);
-    // const modalBody = document.querySelector('.modal-container') 
-    // modalBody.style.display = 'none';
-    // const card = document.querySelector('.card');
-    // card.addEventListener('click', () => modalBody.style.display = 'block');
-    // modalButton.addEventListener('click', () => modalBody.style.display = 'none');
+
+    const modalContainer = document.querySelector('.modal-container')
+    const closeButton = document.querySelector('.modal-close-btn');
+    const closeElement = [modalContainer, closeButton]
+    closeElement.forEach(element => {
+        element.addEventListener('click', () => {
+            modalContainer.remove()
+        })
+    });
 }
