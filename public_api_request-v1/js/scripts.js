@@ -55,7 +55,7 @@ function generateCard(employees) {
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener('click', (e) => {
             if (cards[i].contains(e.target)) {
-                generateModal(employees[i])
+                generateModal(employees, i)
             }
         })
     }
@@ -65,7 +65,8 @@ function generateCard(employees) {
  * 
  * @param {*} employee 
  */
-function generateModal(employee) {
+function generateModal(employees, i) {
+    let employee = employees[i];
     let getDate = new Date(employee.dob.date);
     let phoneDigits = employee.cell.replace(/[^\d]/g, "");
     let formattedPhoneNumber = phoneDigits.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")
@@ -103,4 +104,28 @@ function generateModal(employee) {
             modalContainer.remove()
         })
     });
+
+    const previousEmployee = document.querySelector('.modal-prev')
+    const nextEmployee = document.querySelector('.modal-next')
+    const totalNumberOfEmployees = employees.length
+    
+    if (employees.indexOf(employee) < 1) {
+        previousEmployee.classList.add('d-none')
+    }
+
+    if (employees.indexOf(employee) === (totalNumberOfEmployees - 1)) {
+        nextEmployee.classList.add('d-none')
+    }
+
+    previousEmployee.addEventListener('click', () => {
+        const previous = employees.indexOf(employee) - 1
+        modalContainer.remove()
+        generateModal(employees, previous)
+    })
+
+    nextEmployee.addEventListener('click', () => {
+        const next = employees.indexOf(employee) + 1
+        modalContainer.remove()
+        generateModal(employees, next)
+    })
 }
