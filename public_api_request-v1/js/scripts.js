@@ -1,23 +1,28 @@
+//global variable
 const gallery = document.querySelector('.gallery');
-const body = document.querySelector('body');
-const modalButton = document.querySelector('.modal-close-btn');
+
 /**
- * 
+ * fetchData fetches data, checks the status of the response, 
+ * parses the response into json and catches error
  * @param {*} url 
  */
-function fetchData(url) {
-    return fetch(url)
-            .then(checkStatus)
-            .then(response => response.json())
-            .catch(error => console.log('Looks like there was a problem', error))
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+        const response_status = await checkStatus(response);
+        return response_status.json();
+    }
+    catch (error) {
+        return console.log('Looks like there was a problem', error);
+    }
 }
 
-fetchData('https://randomuser.me/api/?results=12&?nat=us')
+fetchData('https://randomuser.me/api/?results=12&nat=us')
     .then(employees => generateCard(employees.results))
     // .then(data => console.log((data.results)))
 
 /**
- * checkStatus
+ * checkStatus checks the status of the response
  * @param {*} response 
  */
 function checkStatus(response) {
@@ -29,13 +34,11 @@ function checkStatus(response) {
 }
 
 /**
- * 
+ * generateCard renders the card for each employee
+ * renders the modal for the clicked employee
  * @param {*} employees 
  */
 function generateCard(employees) {
-    if (gallery === '') {
-        gallery.textContent = 'Loading.....'
-    }
     const card = employees.map(employee => `
     <div class='card'>
         <div class='card-img-container'>
@@ -51,7 +54,7 @@ function generateCard(employees) {
     gallery.innerHTML = card;
 
     const cards = document.querySelectorAll('.card');
-
+    //renders the modal for the clicked employee
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener('click', (e) => {
             if (cards[i].contains(e.target)) {
@@ -62,14 +65,14 @@ function generateCard(employees) {
 }
 
 /**
- * 
+ * generateModal renders the details of the employees
  * @param {*} employee 
  */
 function generateModal(employees, i) {
     let employee = employees[i];
     let getDate = new Date(employee.dob.date);
-    let phoneDigits = employee.cell.replace(/[^\d]/g, "");
-    let formattedPhoneNumber = phoneDigits.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")
+    let phoneDigits = employee.cell.replace(/[^\d]/g, ""); //sets value of cell to only digits with no space
+    let formattedPhoneNumber = phoneDigits.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3") //set the formatted cell into a 3 groups and format to US phone format
 
     const modal = `
         <div class="modal-container">
@@ -93,12 +96,13 @@ function generateModal(employees, i) {
             </div>
         </div>
     `;
-
+    //inserts the modal of an employee after the gallery
     gallery.insertAdjacentHTML('afterend', modal);
 
     const modalContainer = document.querySelector('.modal-container')
     const closeButton = document.querySelector('.modal-close-btn');
     const closeElement = [modalContainer, closeButton]
+    //remove the modal of an employee when the close button is clicked or any part of the modal
     closeElement.forEach(element => {
         element.addEventListener('click', () => {
             modalContainer.remove()
@@ -108,23 +112,24 @@ function generateModal(employees, i) {
     const previousEmployee = document.querySelector('.modal-prev')
     const nextEmployee = document.querySelector('.modal-next')
     const totalNumberOfEmployees = employees.length
-    
-    if (employees.indexOf(employee) < 1) {
+    const displayedEmployee = employees.indexOf(employee)
+    //hides previous button on the first employee modal
+    if (displayedEmployee < 1) {
         previousEmployee.classList.add('d-none')
     }
-
-    if (employees.indexOf(employee) === (totalNumberOfEmployees - 1)) {
+    //hides next button on the last employee modal
+    if (displayedEmployee === (totalNumberOfEmployees - 1)) {
         nextEmployee.classList.add('d-none')
     }
-
+    //displays the details of an employee when previous button is clicked
     previousEmployee.addEventListener('click', () => {
-        const previous = employees.indexOf(employee) - 1
+        const previous = displayedEmployee - 1
         modalContainer.remove()
         generateModal(employees, previous)
     })
-
+    //displays the modal of an employee when next button is clicked
     nextEmployee.addEventListener('click', () => {
-        const next = employees.indexOf(employee) + 1
+        const next = displayedEmployee + 1
         modalContainer.remove()
         generateModal(employees, next)
     })
