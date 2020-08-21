@@ -21,7 +21,6 @@ async function fetchData(url) {
 
 fetchData('https://randomuser.me/api/?results=12&nat=us')
     .then(employees => generateCard(employees.results))
-    // .then(data => console.log((data.results)))
 
 /**
  * checkStatus checks the status of the response
@@ -47,7 +46,7 @@ function generateCard(employees) {
             <img class="card-img" src="${employee.picture.thumbnail}">
         </div>
         <div class="card-info-container">
-            <h3 id="name" class="card-name cap">${employee.name.first}, ${employee.name.last}</h3>
+            <h3 id="name" class="card-name cap">${employee.name.first} ${employee.name.last}</h3>
             <p class="card-text">${employee.email}</p>
             <p class="card-text cap">${employee.location.city}</p>
         </div>
