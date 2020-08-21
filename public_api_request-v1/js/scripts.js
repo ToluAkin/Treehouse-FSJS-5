@@ -57,9 +57,8 @@ function generateCard(employees) {
     //renders the modal for the clicked employee
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener('click', (e) => {
-            if (cards[i].contains(e.target)) {
+            if (cards[i].contains(e.target))
                 generateModal(employees, i)
-            }
         })
     }
 }
@@ -150,13 +149,13 @@ function generateModal(employees, i) {
     const totalNumberOfEmployees = employees.length
     const displayedEmployee = employees.indexOf(employee)
     //hides previous button on the first employee modal
-    if (displayedEmployee < 1) {
+    if (displayedEmployee < 1) 
         previousEmployee.classList.add('d-none')
-    }
+
     //hides next button on the last employee modal
-    if (displayedEmployee === (totalNumberOfEmployees - 1)) {
+    if (displayedEmployee === (totalNumberOfEmployees - 1))
         nextEmployee.classList.add('d-none')
-    }
+
     //displays the details of an employee when previous button is clicked
     previousEmployee.addEventListener('click', () => {
         const previous = displayedEmployee - 1

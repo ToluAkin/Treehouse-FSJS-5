@@ -16,7 +16,7 @@ html, body {
 body {
     font-family: "Nunito", sans-serif;
     text-align: center;
-    background: rgba(235, 235, 235, 0.9);
+    background: #C5CBD3;
 }
 
 header {
@@ -37,29 +37,30 @@ header h1 {
 .search-input {
     padding: 0.4rem 1rem;
     border: 1px solid rgba(200, 200, 200, 0.9);
-    border-radius: 0.25rem 0 0 0.25rem ;
+    border-radius: 0.5rem;
     max-width: 20rem;
     transition: .4s ease-out;
     outline: none;
 }
 
 .search-input:active, .search-input:hover, .search-input:focus {
-    border: 1px solid rgba(50, 50, 50, 0.9);
+    border: 1px solid #52528c;
 }
 
 .search-submit {
     cursor: pointer;
     height: 33px;
     background: rgba(245, 245, 245, 0.9);
-    border-radius: 0 0.25rem 0.25rem 0;
-    border: 1px solid rgba(200, 200, 200, 0.9);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    border: 1px solid #fff;
     transition: .4s ease-out;
     outline: none;
 }
 
 .search-submit:active, .search-submit:hover, .search-submit:focus {
     background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(50, 50, 50, 0.9);
+    border: 1px solid #52528c;
 }
 
 
@@ -87,11 +88,16 @@ header h1 {
     max-width: 360px;
     margin: 10px 10px 20px;
     padding: 10px;
-    background: rgba(245, 245, 245, 0.9);
-    border-radius: 0.25em;
-    border: 1px solid rgba(50, 50, 50, 0.3);
+    background: #fff;
+    border-radius: 1.25em;
+    border: 1px solid #fff;
     transition: .4s ease-out;
     overflow: hidden;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.card:hover {
+    padding: 20px;
 }
 
 .card-img {
@@ -152,9 +158,9 @@ header h1 {
     right: 15px;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.9);
-    background: rgba(0, 0, 0, 0.8);
+    background: #231123;
     outline: none;
-    border-radius: 0.25em;
+    border-radius: 1.25em;
     border: 1px solid rgba(50, 50, 50, 0.3);
 }
 
@@ -199,12 +205,15 @@ header h1 {
     cursor: pointer;
     font-size: 0.85em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    color: #231123;
     padding: 0.75em 1.5em;
-    background: rgba(0, 0, 0, 0.8);
+    background: #C5CBD3;
+    border: 1px solid transparent;
     border-radius: 0.35em;
     transition: .4s ease-out;
     outline: none;
+    font-weight: bold;
 }
 
 .d-none {
@@ -252,7 +261,8 @@ header h1 {
 
     .card:hover {
         background: rgba(255, 255, 255, 1);
-        border: 1px solid rgba(50, 50, 50, 0.9);
+        border: 1px solid #C5CBD3;
+        padding: 20px;
     }
 
     .card:hover .card-text {
