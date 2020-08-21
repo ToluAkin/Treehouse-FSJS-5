@@ -1,6 +1,8 @@
+//EXCEEDS EXPECTATION
 //global variables
 const gallery = document.querySelector('.gallery')
 const searchContainer = document.querySelector('.search-container')
+
 /**
  * fetchData fetches data, checks the status of the response, 
  * parses the response into json and catches error
@@ -62,6 +64,7 @@ function generateCard(employees) {
         })
     }
 }
+//EXCEEDS EXPECTATION
 
 /**
  * createSearchBox creates the input field and button for filter
@@ -81,6 +84,7 @@ function createSearchBox() {
     inputField.addEventListener('input', () => searchEmployee(inputField))
 }
 createSearchBox()
+//EXCEEDS EXPECTATION
 
 /**
  * searchEmployee filters by the value of the name on the card and display the matched card
@@ -169,3 +173,4 @@ function generateModal(employees, i) {
         generateModal(employees, next)
     })
 }
+//EXCEEDS EXPECTATION
