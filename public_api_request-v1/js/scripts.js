@@ -1,6 +1,6 @@
-//global variable
-const gallery = document.querySelector('.gallery');
-
+//global variables
+const gallery = document.querySelector('.gallery')
+const searchContainer = document.querySelector('.search-container')
 /**
  * fetchData fetches data, checks the status of the response, 
  * parses the response into json and catches error
@@ -52,7 +52,7 @@ function generateCard(employees) {
     </div>
     `).join('');
     gallery.innerHTML = card;
-
+    
     const cards = document.querySelectorAll('.card');
     //renders the modal for the clicked employee
     for (let i = 0; i < cards.length; i++) {
@@ -62,6 +62,42 @@ function generateCard(employees) {
             }
         })
     }
+}
+
+/**
+ * createSearchBox creates the input field and button for filter
+ */
+function createSearchBox() {
+    const inputField = document.createElement('input');
+    inputField.className = 'search-input'
+    inputField.placeholder = 'Search for an employee'
+    searchContainer.appendChild(inputField)
+
+    const searchButton = document.createElement('button')
+    searchButton.className = 'search-submit'
+    searchButton.textContent = 'Search'
+    searchContainer.appendChild(searchButton)
+    
+    searchButton.addEventListener('click', () => searchEmployee(inputField))
+    inputField.addEventListener('input', () => searchEmployee(inputField))
+}
+createSearchBox()
+
+/**
+ * searchEmployee filters by the value of the name on the card and display the matched card
+ * @param {*} inputField 
+ */
+function searchEmployee(inputField) {
+    const searchValue = inputField.value
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        const employeeName = card.querySelector('.card-name')
+        let matchedEmployee = employeeName.textContent.toLowerCase().includes(searchValue.toLowerCase())
+            matchedEmployee ? 
+            card.style.display = '': 
+            card.style.display = 'none'
+    })
 }
 
 /**
@@ -101,10 +137,10 @@ function generateModal(employees, i) {
 
     const modalContainer = document.querySelector('.modal-container')
     const closeButton = document.querySelector('.modal-close-btn');
-    const closeElement = [modalContainer, closeButton]
+    const closeModal = [modalContainer, closeButton]
     //remove the modal of an employee when the close button is clicked or any part of the modal
-    closeElement.forEach(element => {
-        element.addEventListener('click', () => {
+    closeModal.forEach(action => {
+        action.addEventListener('click', () => {
             modalContainer.remove()
         })
     });
