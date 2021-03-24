@@ -13,8 +13,7 @@ async function fetchData(url) {
         const response = await fetch(url);
         const response_status = await checkStatus(response);
         return response_status.json();
-    }
-    catch (error) {
+    } catch (error) {
         return console.log('Looks like there was a problem', error);
     }
 }
@@ -40,10 +39,10 @@ function checkStatus(response) {
  * @param {*} employees 
  */
 function generateCard(employees) {
-    const card = employees.map(employee => `
+    gallery.innerHTML = employees.map(employee => `
     <div class='card'>
         <div class='card-img-container'>
-            <img class="card-img" src="${employee.picture.thumbnail}">
+            <img class="card-img" src="${employee.picture.thumbnail}" alt="Picture of one ${employee.name.first}">
         </div>
         <div class="card-info-container">
             <h3 id="name" class="card-name cap">${employee.name.first} ${employee.name.last}</h3>
@@ -52,7 +51,6 @@ function generateCard(employees) {
         </div>
     </div>
     `).join('');
-    gallery.innerHTML = card;
     
     const cards = document.querySelectorAll('.card');
     //renders the modal for the clicked employee
@@ -63,7 +61,6 @@ function generateCard(employees) {
         })
     }
 }
-//EXCEEDS EXPECTATION
 
 /**
  * createSearchBox creates the input field and button for filter
@@ -83,7 +80,6 @@ function createSearchBox() {
     inputField.addEventListener('input', () => searchEmployee(inputField))
 }
 createSearchBox()
-//EXCEEDS EXPECTATION
 
 /**
  * searchEmployee filters by the value of the name on the card and display the matched card
@@ -104,7 +100,8 @@ function searchEmployee(inputField) {
 
 /**
  * generateModal renders the details of the employees
- * @param {*} employee 
+ * @param employees
+ * @param i
  */
 function generateModal(employees, i) {
     let employee = employees[i];
@@ -172,4 +169,3 @@ function generateModal(employees, i) {
         generateModal(employees, next)
     })
 }
-//EXCEEDS EXPECTATION
